@@ -14,14 +14,4 @@ const uploadFileToSupabase = async (filePath, buffer) => {
   return data;
 };
 
-const getFileFromSupabase = async (filePath) => {
-  const { data, error } = await supabase.storage
-    .from("files")
-    .download(filePath);
-
-  if (error) throw error;
-
-  return data;
-};
-
-module.exports = { uploadFileToSupabase, getFileFromSupabase };
+module.exports = { uploadFileToSupabase };

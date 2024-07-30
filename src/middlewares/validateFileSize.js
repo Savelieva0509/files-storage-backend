@@ -1,8 +1,3 @@
-const multer = require("multer");
-const upload = multer({
-  limits: { fileSize: 7 * 1024 * 1024 * 1024 },
-});
-
 const validateFileSize = (req, res, next) => {
   if (req.file.size < 1024 || req.file.size > 7 * 1024 * 1024 * 1024) {
     return res

@@ -1,7 +1,6 @@
 const File = require("../domain/models/file");
 const {
   uploadFileToSupabase,
-  getFileFromSupabase,
 } = require("../infrastructure/storage/SupabaseStorage");
 
 const listFiles = async () => {

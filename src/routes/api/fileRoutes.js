@@ -7,11 +7,22 @@ const {
   validateFileSize,
 } = require("../../middlewares");
 const router = express.Router();
+const multer = require("multer");
+
+const upload = multer({
+  limits: { fileSize: 7 * 1024 * 1024 * 1024 },
+});
 
 router.get("/", ctrl.listFiles);
 
 router.get("/:id", isValidId, ctrl.getFile);
 
-router.post("/", validateBody(addSchema), validateFileSize, ctrl.uploadFile);
+router.post(
+  "/",
+  upload.single("file"),
+  validateBody(addSchema),
+  validateFileSize,
+  ctrl.uploadFile
+);
 
 module.exports = router;

@@ -12,13 +12,25 @@ const listFilesController = async (req, res) => {
 };
 
 const uploadFileController = async (req, res) => {
+  const { name, description } = req.body;
+  const { originalname, size, buffer } = req.file;
+  console.log(req.file);
+
+  const extension = originalname.split(".").pop();
+
   const file = await uploadFile({
-    name: req.body.name,
-    description: req.body.description,
-    size: req.file.size,
-    extension: extension,
-    buffer: req.file.buffer,
+    name,
+    description,
+    size,
+    extension,
+    buffer,
   });
+  if (size < 1024) {
+    return res.status(400).json({ message: "File size must be at least 1KB" });
+  }
+  if (size > 7 * 1024 * 1024 * 1024) {
+    return res.status(400).json({ message: "File size must not exceed 7GB" });
+  }
   res.status(201).json(file);
 };
 
