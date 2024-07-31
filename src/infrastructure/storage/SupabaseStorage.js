@@ -4,7 +4,7 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const uploadFileToSupabase = async (filePath, buffer) => {
+const uploadFileToSupabase = async (filePath, buffer, mimeType) => {
   const { data, error } = await supabase.storage
     .from("files")
     .upload(filePath, buffer, {
@@ -13,7 +13,9 @@ const uploadFileToSupabase = async (filePath, buffer) => {
 
   if (error) throw error;
 
-  return data;
+  const fileUrl = `${SUPABASE_URL}/storage/v1/object/public/files/${filePath}`;
+
+  return { url: fileUrl, ...data };
 };
 
 module.exports = { uploadFileToSupabase };
