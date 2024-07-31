@@ -12,7 +12,8 @@ const uploadFile = async (fileData) => {
   const filePath = `${fileData.name}`;
   const supabaseResponse = await uploadFileToSupabase(
     filePath,
-    fileData.buffer
+    fileData.buffer,
+    fileData.mimeType
   );
 
   const file = new File({

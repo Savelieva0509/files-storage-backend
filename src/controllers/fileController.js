@@ -13,7 +13,7 @@ const listFilesController = async (req, res) => {
 
 const uploadFileController = async (req, res) => {
   const { name, description } = req.body;
-  const { originalname, size, buffer } = req.file;
+  const { originalname, size, buffer, mimetype } = req.file;
   console.log(req.file);
 
   const extension = originalname.split(".").pop();
@@ -24,6 +24,7 @@ const uploadFileController = async (req, res) => {
     size,
     extension,
     buffer,
+    mimeType: mimetype,
   });
   if (size < 1024) {
     return res.status(400).json({ message: "File size must be at least 1KB" });

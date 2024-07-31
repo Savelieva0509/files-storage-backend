@@ -8,7 +8,7 @@ const uploadFileToSupabase = async (filePath, buffer) => {
   const { data, error } = await supabase.storage
     .from("files")
     .upload(filePath, buffer, {
-      contentType: 'application/octet-stream', // Устанавливаем тип контента по умолчанию
+      contentType: mimeType,
     });
 
   if (error) throw error;
