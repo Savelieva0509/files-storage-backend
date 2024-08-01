@@ -8,6 +8,7 @@ const fileSchema = new Schema(
     size: Number,
     extension: String,
     url: String,
+    downloadCount: { type: Number, default: 0 },
   },
   { versionKey: false, timestamps: true }
 );

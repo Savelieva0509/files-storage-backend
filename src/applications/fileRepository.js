@@ -29,4 +29,9 @@ const getFile = async (id) => {
   return await File.findById(id);
 };
 
-module.exports = { listFiles, uploadFile, getFile };
+const updateFile = async (id, updateData) => {
+  const file = await File.findByIdAndUpdate(id, updateData, { new: true });
+  return file;
+};
+
+module.exports = { listFiles, uploadFile, getFile, updateFile };

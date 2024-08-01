@@ -15,7 +15,7 @@ const upload = multer({
 
 router.get("/", ctrl.listFiles);
 
-router.get("/:id", isValidId, ctrl.getFile);
+router.patch("/:id", isValidId, ctrl.updateCount);
 
 router.post(
   "/",

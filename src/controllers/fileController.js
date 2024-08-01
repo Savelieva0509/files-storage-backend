@@ -2,6 +2,7 @@ const {
   listFiles,
   uploadFile,
   getFile,
+  updateFile,
 } = require("../applications/fileRepository");
 const { HttpError, ControllerWrapper } = require("../helpers");
 
@@ -35,12 +36,14 @@ const uploadFileController = async (req, res) => {
   res.status(201).json(file);
 };
 
-const getFileController = async (req, res) => {
-  const file = await getFile(req.params.id);
-  console.log("File returned from repository:", file);
-  if (!file) {
-    throw HttpError(404, "File not found");
-  }
+const updateCountController = async (req, res) => {
+  const { id } = req.params;
+  const { downloadCount } = req.body;
+
+  const file = await getFile(id);
+
+  file.downloadCount = downloadCount;
+  await file.save();
 
   res.json(file);
 };
@@ -48,5 +51,5 @@ const getFileController = async (req, res) => {
 module.exports = {
   listFiles: ControllerWrapper(listFilesController),
   uploadFile: ControllerWrapper(uploadFileController),
-  getFile: ControllerWrapper(getFileController),
+  updateCount: ControllerWrapper(updateCountController),
 };
