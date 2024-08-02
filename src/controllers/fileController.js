@@ -11,7 +11,7 @@ const listFilesController = async (req, res) => {
   res.json(result);
 };
 
-const uploadFileController = async (req, res) => {
+const uploadFileController = async (req, res, next) => {
   try {
     const { name, description } = req.body;
     const { originalname, size, buffer, mimetype } = req.file;
@@ -39,6 +39,7 @@ const uploadFileController = async (req, res) => {
     if (error.message === "File with the same name already exists") {
       return res.status(400).json({ message: error.message });
     }
+    next(error);
   }
 };
 
