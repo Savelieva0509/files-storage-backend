@@ -13,6 +13,7 @@ const fileSchema = new Schema(
       type: Date,
       default: Date.now,
     },
+    originalname: String,
   },
   { versionKey: false, timestamps: true }
 );

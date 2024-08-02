@@ -7,6 +7,9 @@ This repository contains the backend for a file storage service that allows user
 - Upload files to Supabase storage
 - List all uploaded files
 - Validate file size (1KB - 7GB)
+- Pagination
+- Error loading file if it already exists in the database
+
 
 ### Prerequisites
 

@@ -8,12 +8,18 @@ const listFiles = async (page, limit) => {
   const files = await File.find()
     .sort({ createdAt: -1 })
     .skip(skip)
-    .limit(parseInt(limit)); 
+    .limit(parseInt(limit));
   const countFiles = await File.countDocuments();
   return { files, countFiles };
 };
 
 const uploadFile = async (fileData) => {
+  // Проверьте, существует ли файл с таким же именем в базе данных
+  const existingFile = await File.findOne({ name: fileData.originalname });
+  if (existingFile) {
+    throw new Error("File with the same name already exists");
+  }
+  console.log(existingFile);
   const filePath = `${fileData.name}`;
   const supabaseResponse = await uploadFileToSupabase(
     filePath,
@@ -34,9 +40,4 @@ const getFile = async (id) => {
   return await File.findById(id);
 };
 
-const updateFile = async (id, updateData) => {
-  const file = await File.findByIdAndUpdate(id, updateData, { new: true });
-  return file;
-};
-
-module.exports = { listFiles, uploadFile, getFile, updateFile };
+module.exports = { listFiles, uploadFile, getFile };
