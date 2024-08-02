@@ -39,10 +39,8 @@ const uploadFileController = async (req, res) => {
     if (error.message === "File with the same name already exists") {
       return res.status(400).json({ message: error.message });
     }
-    next(error);
   }
 };
-
 
 const updateCountController = async (req, res) => {
   const { id } = req.params;
