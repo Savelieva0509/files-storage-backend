@@ -9,6 +9,10 @@ const fileSchema = new Schema(
     extension: String,
     url: String,
     downloadCount: { type: Number, default: 0 },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { versionKey: false, timestamps: true }
 );

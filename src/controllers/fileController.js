@@ -4,10 +4,11 @@ const {
   getFile,
   updateFile,
 } = require("../applications/fileRepository");
-const { HttpError, ControllerWrapper } = require("../helpers");
+const { ControllerWrapper } = require("../helpers");
 
 const listFilesController = async (req, res) => {
-  const result = await listFiles();
+  const { page = 1, limit = 8 } = req.query;
+  const result = await listFiles(page, limit);
   console.log(result);
   res.json(result);
 };

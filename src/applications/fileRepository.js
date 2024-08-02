@@ -3,8 +3,12 @@ const {
   uploadFileToSupabase,
 } = require("../infrastructure/storage/SupabaseStorage");
 
-const listFiles = async () => {
-  const files = await File.find();
+const listFiles = async (page, limit) => {
+  const skip = (page - 1) * limit;
+  const files = await File.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(parseInt(limit)); 
   return files;
 };
 
