@@ -9,7 +9,8 @@ const listFiles = async (page, limit) => {
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(parseInt(limit)); 
-  return files;
+  const countFiles = await File.countDocuments();
+  return { files, countFiles };
 };
 
 const uploadFile = async (fileData) => {

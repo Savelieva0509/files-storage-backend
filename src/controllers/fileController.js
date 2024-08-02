@@ -9,14 +9,12 @@ const { ControllerWrapper } = require("../helpers");
 const listFilesController = async (req, res) => {
   const { page = 1, limit = 8 } = req.query;
   const result = await listFiles(page, limit);
-  console.log(result);
   res.json(result);
 };
 
 const uploadFileController = async (req, res) => {
   const { name, description } = req.body;
   const { originalname, size, buffer, mimetype } = req.file;
-  console.log(req.file);
 
   const extension = originalname.split(".").pop();
 
