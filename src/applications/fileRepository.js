@@ -14,9 +14,9 @@ const listFiles = async (page, limit) => {
 };
 
 const uploadFile = async (fileData) => {
-  // Проверьте, существует ли файл с таким же именем в базе данных
-  const existingFile = await File.findOne({ originalname: fileData.originalname });
-  console.log(existingFile);
+  const existingFile = await File.findOne({
+    originalname: fileData.originalname,
+  });
   if (existingFile) {
     throw new Error("File with the same name already exists");
   }
