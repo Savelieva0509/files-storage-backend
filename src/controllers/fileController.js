@@ -16,7 +16,7 @@ const uploadFileController = async (req, res, next) => {
     const { name, description } = req.body;
     const { originalname, size, buffer, mimetype } = req.file;
 
-    // Проверка размера файла
+    // Прсоверка размера файла
     if (size < 1024) {
       throw HttpError(400, "File size must be at least 1KB");
     }
