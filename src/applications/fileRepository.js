@@ -47,15 +47,34 @@ const searchFiles = async (query, page, limit) => {
   const result = await File.aggregate([
     {
       $search: {
-        index: "search", 
-        text: {
-          query: query,
-          path: ["name", "description"],
-          fuzzy: {
-            maxEdits: 2,
-            prefixLength: 1,
-            maxExpansions: 50,
-          },
+        index: "search",
+        compound: {
+          should: [
+            {
+              autocomplete: {
+                query: query,
+                path: "name",
+                tokenOrder: "sequential",
+                fuzzy: {
+                  maxEdits: 2,
+                  prefixLength: 1,
+                  maxExpansions: 50,
+                },
+              },
+            },
+            {
+              autocomplete: {
+                query: query,
+                path: "description",
+                tokenOrder: "sequential",
+                fuzzy: {
+                  maxEdits: 2,
+                  prefixLength: 1,
+                  maxExpansions: 50,
+                },
+              },
+            },
+          ],
         },
       },
     },
@@ -75,6 +94,7 @@ const searchFiles = async (query, page, limit) => {
     countFiles: result[0].countFiles[0] ? result[0].countFiles[0].total : 0,
   };
 };
+
 
 
 module.exports = { listFiles, uploadFile, getFile, searchFiles };
