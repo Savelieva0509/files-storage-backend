@@ -41,4 +41,40 @@ const getFile = async (id) => {
   return await File.findById(id);
 };
 
-module.exports = { listFiles, uploadFile, getFile };
+const searchFiles = async (query, page, limit) => {
+  const skip = (page - 1) * limit;
+
+  const result = await File.aggregate([
+    {
+      $search: {
+        index: "search", 
+        text: {
+          query: query,
+          path: ["name", "description"],
+          fuzzy: {
+            maxEdits: 2,
+            prefixLength: 1,
+            maxExpansions: 50,
+          },
+        },
+      },
+    },
+    { $sort: { createdAt: -1 } },
+    { $skip: skip },
+    { $limit: parseInt(limit) },
+    {
+      $facet: {
+        files: [{ $limit: parseInt(limit) }],
+        countFiles: [{ $count: "total" }],
+      },
+    },
+  ]);
+
+  return {
+    files: result[0].files,
+    countFiles: result[0].countFiles[0] ? result[0].countFiles[0].total : 0,
+  };
+};
+
+
+module.exports = { listFiles, uploadFile, getFile, searchFiles };

@@ -2,6 +2,7 @@ const {
   listFiles,
   uploadFile,
   getFile,
+  searchFiles
 } = require("../applications/fileRepository");
 const { ControllerWrapper, HttpError } = require("../helpers");
 
@@ -54,8 +55,24 @@ const updateCountController = async (req, res) => {
   res.json(file);
 };
 
+
+const searchFilesController = async (req, res) => {
+  const { query } = req.query;
+  const { page = 1, limit = 8 } = req.query;
+
+  if (!query) {
+    return res.status(400).json({ message: "Search query is required" });
+  }
+
+  const result = await searchFiles(query, page, limit);
+  res.json(result);
+  console.log("result", result); 
+  
+};
+
 module.exports = {
   listFiles: ControllerWrapper(listFilesController),
   uploadFile: ControllerWrapper(uploadFileController),
   updateCount: ControllerWrapper(updateCountController),
+  searchFiles: ControllerWrapper(searchFilesController),
 };

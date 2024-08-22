@@ -25,4 +25,6 @@ router.post(
   ctrl.uploadFile
 );
 
+router.get("/search", ctrl.searchFiles);
+
 module.exports = router;
