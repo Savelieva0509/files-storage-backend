@@ -40,5 +40,5 @@ The following API endpoints are available:
 
 - `GET /api/files`: Get all files
 - `POST /api/files`: Create a new file
-- `GET /api/files/:id`: Get a specific file by ID
+- `PATCH /api/files/:id`: Update download counter
 
