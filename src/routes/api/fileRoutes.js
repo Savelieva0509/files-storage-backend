@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require("fs");
 const ctrl = require("../../controllers/fileController");
 const { addSchema } = require("../../domain/schemas/addSchema");
 const {
@@ -8,6 +9,11 @@ const {
 } = require("../../middlewares");
 const router = express.Router();
 const multer = require("multer");
+
+const uploadDir = "/tmp/my-uploads";
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
