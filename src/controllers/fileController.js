@@ -2,7 +2,7 @@ const {
   listFiles,
   uploadFile,
   getFile,
-  searchFiles
+  searchFiles,
 } = require("../applications/fileRepository");
 const { ControllerWrapper, HttpError } = require("../helpers");
 
@@ -51,10 +51,8 @@ const updateCountController = async (req, res) => {
 
   file.downloadCount = downloadCount;
   await file.save();
-
   res.json(file);
 };
-
 
 const searchFilesController = async (req, res) => {
   const { query } = req.query;
@@ -66,8 +64,6 @@ const searchFilesController = async (req, res) => {
 
   const result = await searchFiles(query, page, limit);
   res.json(result);
-  console.log("result", result); 
-  
 };
 
 module.exports = {

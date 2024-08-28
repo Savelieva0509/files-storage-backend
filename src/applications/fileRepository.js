@@ -42,8 +42,6 @@ const getFile = async (id) => {
 };
 
 const searchFiles = async (query, page, limit) => {
-  const skip = (page - 1) * limit;
-
   const result = await File.aggregate([
     {
       $search: {
@@ -78,20 +76,15 @@ const searchFiles = async (query, page, limit) => {
         },
       },
     },
-    { $sort: { createdAt: -1 } },
-    { $skip: skip },
-    { $limit: parseInt(limit) },
-    {
-      $facet: {
-        files: [{ $limit: parseInt(limit) }],
-        countFiles: [{ $count: "total" }],
-      },
-    },
+    { $sort: { createdAt: -1 } }, 
   ]);
 
+  const totalResults = result.length; 
+  const paginatedFiles = result.slice((page - 1) * limit, page * limit); 
+
   return {
-    files: result[0].files,
-    countFiles: result[0].countFiles[0] ? result[0].countFiles[0].total : 0,
+    files: paginatedFiles,
+    countFiles: totalResults,
   };
 };
 
